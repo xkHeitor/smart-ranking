@@ -9,4 +9,5 @@ export default abstract class PlayerRepository {
     player: Player,
     createPlayerDto: CreatePlayerDto,
   ): Promise<void>;
+  abstract delete(email: string): Promise<void>;
 }

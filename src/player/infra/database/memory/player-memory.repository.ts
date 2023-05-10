@@ -36,4 +36,8 @@ export default class PlayerMemoryRepository implements PlayerRepository {
       return player;
     });
   }
+
+  async delete(email: string): Promise<void> {
+    this.players = this.players.filter((player) => player.email != email);
+  }
 }

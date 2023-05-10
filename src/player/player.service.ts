@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import CreatePlayerDto from './domain/dtos/create-player.dto';
 import PlayerRepository from './domain/repositories/player.repository';
 import Player from './domain/entities/player.interface';
@@ -13,6 +13,14 @@ export class PlayerService {
     return await this.playerRepository.getAll();
   }
 
+  async getPlayerByEmail(email: string): Promise<Player | undefined> {
+    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
+      email,
+    );
+    if (!foundPlayer) throw new NotFoundException(`Jogador não encontrado`);
+    return foundPlayer;
+  }
+
   async createUpdatePlayer(playerDto: CreatePlayerDto): Promise<any> {
     const { email } = playerDto;
     const foundPlayer: Player = await this.playerRepository.getFindByEmail(
@@ -23,5 +31,13 @@ export class PlayerService {
     );
     if (!foundPlayer) return await this.playerRepository.create(playerDto);
     return await this.playerRepository.update(foundPlayer, playerDto);
+  }
+
+  async deletePlayer(email: string): Promise<void> {
+    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
+      email,
+    );
+    if (!foundPlayer) throw new NotFoundException(`Jogador não encontrado`);
+    return await this.playerRepository.delete(email);
   }
 }
