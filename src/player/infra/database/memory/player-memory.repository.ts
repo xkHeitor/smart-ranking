@@ -12,6 +12,10 @@ export default class PlayerMemoryRepository implements PlayerRepository {
     return this.players;
   }
 
+  async getFindByEmail(email: string): Promise<Player> {
+    return this.players.find((player) => player.email === email);
+  }
+
   async create(createPlayerDto: CreatePlayerDto): Promise<void> {
     this.players.push({
       ...createPlayerDto,
@@ -19,6 +23,17 @@ export default class PlayerMemoryRepository implements PlayerRepository {
       ranking: 'F',
       rankingPosition: this.players.length + 1,
       photoUrl: 'none',
+    });
+  }
+
+  async update(
+    playerDto: Player,
+    createPlayerDto: CreatePlayerDto,
+  ): Promise<void> {
+    this.players = this.players.map((player) => {
+      if (player._id === playerDto._id)
+        player = Object.assign(player, createPlayerDto);
+      return player;
     });
   }
 }

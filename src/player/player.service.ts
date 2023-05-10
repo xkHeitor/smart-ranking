@@ -13,8 +13,15 @@ export class PlayerService {
     return await this.playerRepository.getAll();
   }
 
-  async createUpdatePlayer(createPlayer: CreatePlayerDto): Promise<any> {
-    this.logger.log(`createUpdate: ${JSON.stringify(createPlayer)}`);
-    return await this.playerRepository.create(createPlayer);
+  async createUpdatePlayer(playerDto: CreatePlayerDto): Promise<any> {
+    const { email } = playerDto;
+    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
+      email,
+    );
+    this.logger.log(
+      `${foundPlayer ? 'update' : 'create'}: ${JSON.stringify(playerDto)}`,
+    );
+    if (!foundPlayer) return await this.playerRepository.create(playerDto);
+    return await this.playerRepository.update(foundPlayer, playerDto);
   }
 }
