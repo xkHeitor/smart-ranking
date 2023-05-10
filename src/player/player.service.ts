@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import CreatePlayerDto from './domain/dtos/create-player.dto';
 import PlayerRepository from './domain/repositories/player.repository';
+import Player from './domain/entities/player.interface';
 
 @Injectable()
 export class PlayerService {
@@ -8,7 +9,11 @@ export class PlayerService {
 
   constructor(readonly playerRepository: PlayerRepository) {}
 
-  async createUpdate(createPlayer: CreatePlayerDto): Promise<any> {
+  async getAllPlayers(): Promise<Player[]> {
+    return await this.playerRepository.getAll();
+  }
+
+  async createUpdatePlayer(createPlayer: CreatePlayerDto): Promise<any> {
     this.logger.log(`createUpdate: ${JSON.stringify(createPlayer)}`);
     return await this.playerRepository.create(createPlayer);
   }

@@ -8,6 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 export default class PlayerMemoryRepository implements PlayerRepository {
   private players: Player[] = [];
 
+  async getAll(): Promise<Player[]> {
+    return this.players;
+  }
+
   async create(createPlayerDto: CreatePlayerDto): Promise<void> {
     this.players.push({
       ...createPlayerDto,
