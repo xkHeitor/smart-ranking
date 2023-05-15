@@ -24,7 +24,7 @@ export default class PlayerMongooseRepository implements PlayerRepository {
 
   async update(createPlayerDto: CreatePlayerDto): Promise<Player> {
     return this.playerModel
-      .findByIdAndUpdate(
+      .findOneAndUpdate(
         { email: createPlayerDto.email },
         { $set: createPlayerDto },
       )
