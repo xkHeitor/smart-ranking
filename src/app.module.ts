@@ -6,15 +6,7 @@ import Environments from './config/environment';
 const Envs = new Environments();
 console.log(Envs.getDbConnection());
 @Module({
-  imports: [
-    MongooseModule.forRoot(Envs.getDbConnection(), {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    }),
-    PlayerModule,
-  ],
+  imports: [MongooseModule.forRoot(Envs.getDbConnection()), PlayerModule],
   controllers: [],
   providers: [],
 })
