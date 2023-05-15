@@ -30,7 +30,7 @@ export class PlayerService {
       `${foundPlayer ? 'update' : 'create'}: ${JSON.stringify(playerDto)}`,
     );
     if (!foundPlayer) return await this.playerRepository.create(playerDto);
-    return await this.playerRepository.update(foundPlayer, playerDto);
+    return await this.playerRepository.update(playerDto);
   }
 
   async deletePlayer(email: string): Promise<void> {
