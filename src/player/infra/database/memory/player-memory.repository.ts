@@ -16,25 +16,25 @@ export default class PlayerMemoryRepository implements PlayerRepository {
     return this.players.find((player) => player.email === email);
   }
 
-  async create(createPlayerDto: CreatePlayerDto): Promise<void> {
+  async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
     this.players.push({
       ...createPlayerDto,
       _id: uuidv4(),
       ranking: 'F',
       rankingPosition: this.players.length + 1,
       photoUrl: 'none',
-    });
+    } as Player);
+
+    return this.players[this.players.length - 1];
   }
 
-  async update(
-    playerDto: Player,
-    createPlayerDto: CreatePlayerDto,
-  ): Promise<void> {
+  async update(createPlayerDto: CreatePlayerDto): Promise<Player> {
     this.players = this.players.map((player) => {
-      if (player._id === playerDto._id)
+      if (player.email === createPlayerDto.email)
         player = Object.assign(player, createPlayerDto);
       return player;
     });
+    return this.getFindByEmail(createPlayerDto.email);
   }
 
   async delete(email: string): Promise<void> {
