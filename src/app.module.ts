@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import Environments from './config/environment';
 
 const Envs = new Environments();
-console.log(Envs.getDbConnection());
 @Module({
   imports: [MongooseModule.forRoot(Envs.getDbConnection()), PlayerModule],
   controllers: [],
