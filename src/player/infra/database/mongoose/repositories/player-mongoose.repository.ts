@@ -17,17 +17,18 @@ export default class PlayerMongooseRepository implements PlayerRepository {
     return this.playerModel.findOne({ email });
   }
 
+  async getFindById(id: string): Promise<Player> {
+    return this.playerModel.findOne({ _id: id });
+  }
+
   async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
     const playerCreated = new this.playerModel(createPlayerDto);
     return playerCreated.save();
   }
 
-  async update(createPlayerDto: CreatePlayerDto): Promise<Player> {
+  async update(id: string, createPlayerDto: CreatePlayerDto): Promise<Player> {
     return this.playerModel
-      .findOneAndUpdate(
-        { email: createPlayerDto.email },
-        { $set: createPlayerDto },
-      )
+      .findOneAndUpdate({ _id: id }, { $set: createPlayerDto })
       .exec();
   }
 

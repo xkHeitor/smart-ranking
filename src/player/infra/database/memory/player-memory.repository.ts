@@ -16,6 +16,10 @@ export default class PlayerMemoryRepository implements PlayerRepository {
     return this.players.find((player) => player.email === email);
   }
 
+  async getFindById(id: string): Promise<Player> {
+    return this.players.find((player) => player._id === id);
+  }
+
   async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
     this.players.push({
       ...createPlayerDto,
@@ -28,10 +32,9 @@ export default class PlayerMemoryRepository implements PlayerRepository {
     return this.players[this.players.length - 1];
   }
 
-  async update(createPlayerDto: CreatePlayerDto): Promise<Player> {
+  async update(id: string, createPlayerDto: CreatePlayerDto): Promise<Player> {
     this.players = this.players.map((player) => {
-      if (player.email === createPlayerDto.email)
-        player = Object.assign(player, createPlayerDto);
+      if (player._id === id) player = Object.assign(player, createPlayerDto);
       return player;
     });
     return this.getFindByEmail(createPlayerDto.email);
