@@ -13,10 +13,6 @@ export default class PlayerMongooseRepository implements PlayerRepository {
     return this.playerModel.find().exec();
   }
 
-  async getFindByEmail(email: string): Promise<Player> {
-    return this.playerModel.findOne({ email });
-  }
-
   async getFindById(id: string): Promise<Player> {
     return this.playerModel.findOne({ _id: id });
   }
@@ -32,7 +28,7 @@ export default class PlayerMongooseRepository implements PlayerRepository {
       .exec();
   }
 
-  async delete(email: string): Promise<void> {
-    this.playerModel.findOneAndRemove({ email }).exec();
+  async delete(id: string): Promise<void> {
+    this.playerModel.findOneAndRemove({ _id: id }).exec();
   }
 }
