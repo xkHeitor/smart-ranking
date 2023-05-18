@@ -1,6 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import CreatePlayerDto from 'src/player/domain/dtos/create-player.dto';
+import UpdatePlayerDto from 'src/player/domain/dtos/update-player.dto';
 import Player from 'src/player/domain/entities/player.interface';
 import PlayerRepository from 'src/player/domain/repositories/player.repository';
 
@@ -22,8 +23,8 @@ export default class PlayerMongooseRepository implements PlayerRepository {
     return playerCreated.save();
   }
 
-  async update(id: string, createPlayerDto: CreatePlayerDto): Promise<Player> {
-    return this.playerModel
+  async update(id: string, createPlayerDto: UpdatePlayerDto): Promise<void> {
+    this.playerModel
       .findOneAndUpdate({ _id: id }, { $set: createPlayerDto })
       .exec();
   }

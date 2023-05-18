@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import CreatePlayerDto from 'src/player/domain/dtos/create-player.dto';
+import UpdatePlayerDto from 'src/player/domain/dtos/update-player.dto';
 import Player from 'src/player/domain/entities/player.interface';
 import PlayerRepository from 'src/player/domain/repositories/player.repository';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,12 +33,11 @@ export default class PlayerMemoryRepository implements PlayerRepository {
     return this.players[this.players.length - 1];
   }
 
-  async update(id: string, createPlayerDto: CreatePlayerDto): Promise<Player> {
+  async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<void> {
     this.players = this.players.map((player) => {
-      if (player._id === id) player = Object.assign(player, createPlayerDto);
+      if (player._id === id) player = Object.assign(player, updatePlayerDto);
       return player;
     });
-    return this.getFindByEmail(createPlayerDto.email);
   }
 
   async delete(email: string): Promise<void> {
