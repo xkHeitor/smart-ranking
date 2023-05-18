@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import PlayerRepository from './domain/repositories/player.repository';
-import PlayerMongooseRepository from './infra/database/mongoose/repositories/player-mongoose.repository';
-import { PlayerSchema } from './infra/database/mongoose/schemas/player.schema';
+import PlayerRepository from './player.repository';
+import PlayerMongooseRepository from '../../infra/database/mongoose/repositories/player-mongoose.repository';
+import { PlayerSchema } from '../../infra/database/mongoose/schemas/player.schema';
 
 @Module({
   imports: [
