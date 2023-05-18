@@ -29,11 +29,9 @@ export class PlayerService {
     return this.playerRepository.update(id, playerDto);
   }
 
-  async deletePlayer(email: string): Promise<void> {
-    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
-      email,
-    );
+  async deletePlayer(id: string): Promise<void> {
+    const foundPlayer: Player = await this.playerRepository.getFindById(id);
     if (!foundPlayer) throw new NotFoundException(`Player not found`);
-    return this.playerRepository.delete(email);
+    return this.playerRepository.delete(id);
   }
 }

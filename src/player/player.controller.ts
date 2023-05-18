@@ -48,8 +48,8 @@ export class PlayerController {
 
   @Delete()
   async deletePlayer(
-    @Query('email', PlayerValidationParamsPipe) email: string,
+    @Query('id', PlayerValidationParamsPipe) id: string,
   ): Promise<void> {
-    return this.playerService.deletePlayer(email);
+    return this.playerService.deletePlayer(id);
   }
 }
