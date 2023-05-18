@@ -13,7 +13,7 @@ export class PlayerService {
     return this.playerRepository.getAll();
   }
 
-  async getPlayerByEmail(id: string): Promise<Player | undefined> {
+  async getPlayerById(id: string): Promise<Player | undefined> {
     const foundPlayer: Player = await this.playerRepository.getFindById(id);
     if (!foundPlayer) throw new NotFoundException(`Player not found`);
     return foundPlayer;

@@ -28,7 +28,7 @@ export class PlayerController {
   async getPlayer(
     @Param('id', PlayerValidationParamsPipe) id: string,
   ): Promise<Player> {
-    return this.playerService.getPlayerByEmail(id);
+    return this.playerService.getPlayerById(id);
   }
 
   @Post()
