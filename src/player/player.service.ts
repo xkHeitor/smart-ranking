@@ -10,34 +10,30 @@ export class PlayerService {
   constructor(readonly playerRepository: PlayerRepository) {}
 
   async getAllPlayers(): Promise<Player[]> {
-    return await this.playerRepository.getAll();
+    return this.playerRepository.getAll();
   }
 
-  async getPlayerByEmail(email: string): Promise<Player | undefined> {
-    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
-      email,
-    );
-    if (!foundPlayer) throw new NotFoundException(`Jogador não encontrado`);
+  async getPlayerByEmail(id: string): Promise<Player | undefined> {
+    const foundPlayer: Player = await this.playerRepository.getFindById(id);
+    if (!foundPlayer) throw new NotFoundException(`Player not found`);
     return foundPlayer;
   }
 
-  async createUpdatePlayer(playerDto: CreatePlayerDto): Promise<any> {
-    const { email } = playerDto;
-    const foundPlayer: Player = await this.playerRepository.getFindByEmail(
-      email,
-    );
-    this.logger.log(
-      `${foundPlayer ? 'update' : 'create'}: ${JSON.stringify(playerDto)}`,
-    );
-    if (!foundPlayer) return await this.playerRepository.create(playerDto);
-    return await this.playerRepository.update(playerDto);
+  async createPlayer(playerDto: CreatePlayerDto): Promise<any> {
+    return this.playerRepository.create(playerDto);
+  }
+
+  async updatePlayer(id: string, playerDto: CreatePlayerDto): Promise<any> {
+    const foundPlayer: Player = await this.playerRepository.getFindById(id);
+    if (!foundPlayer) throw new NotFoundException('Player not found');
+    return this.playerRepository.update(id, playerDto);
   }
 
   async deletePlayer(email: string): Promise<void> {
     const foundPlayer: Player = await this.playerRepository.getFindByEmail(
       email,
     );
-    if (!foundPlayer) throw new NotFoundException(`Jogador não encontrado`);
-    return await this.playerRepository.delete(email);
+    if (!foundPlayer) throw new NotFoundException(`Player not found`);
+    return this.playerRepository.delete(email);
   }
 }

@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
+  Put,
   Query,
   UsePipes,
   ValidationPipe,
@@ -17,18 +19,31 @@ import PlayerValidationParamsPipe from './infra/pipes/player-validation-params.p
 export class PlayerController {
   constructor(readonly playerService: PlayerService) {}
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  async createUpdatePlayer(@Body() playerDto: CreatePlayerDto): Promise<any> {
-    return this.playerService.createUpdatePlayer(playerDto);
+  @Get()
+  async getPlayers(): Promise<Player[]> {
+    return this.playerService.getAllPlayers();
   }
 
-  @Get()
-  async getPlayers(
-    @Query('email', PlayerValidationParamsPipe) email: string,
-  ): Promise<Player[] | Player> {
-    if (!email) return this.playerService.getAllPlayers();
-    return this.playerService.getPlayerByEmail(email);
+  @Get('/:id')
+  async getPlayer(
+    @Param('id', PlayerValidationParamsPipe) id: string,
+  ): Promise<Player> {
+    return this.playerService.getPlayerByEmail(id);
+  }
+
+  @Post()
+  @UsePipes(ValidationPipe)
+  async createPlayer(@Body() playerDto: CreatePlayerDto): Promise<any> {
+    return this.playerService.createPlayer(playerDto);
+  }
+
+  @Put('/:id')
+  @UsePipes(ValidationPipe)
+  async updatePlayer(
+    @Body() playerDto: CreatePlayerDto,
+    @Param('id', PlayerValidationParamsPipe) id: string,
+  ): Promise<any> {
+    return this.playerService.updatePlayer(id, playerDto);
   }
 
   @Delete()
