@@ -11,6 +11,13 @@ export class CategoryService {
     return this.categoryRepository.getAll();
   }
 
+  async getCategoryByName(name: string): Promise<Category> {
+    const foundCategory = await this.categoryRepository.findByName(name);
+    if (!foundCategory)
+      throw new BadRequestException(`Category ${name} not exists`);
+    return foundCategory;
+  }
+
   async createCategory(createCategoryDto: CreateCategoryDto): Promise<void> {
     const { name } = createCategoryDto;
     const foundCategory = await this.categoryRepository.findByName(name);
