@@ -4,11 +4,13 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import CreateCategoryDto from './domain/dtos/create-category.dto';
 import { CategoryService } from './category.service';
+import CreateCategoryDto from './domain/dtos/create-category.dto';
+import UpdateCategoryDto from './domain/dtos/update-category.dto';
 import Category from './domain/entities/category.interface';
 
 @Controller('api/v1/category')
@@ -31,5 +33,13 @@ export class CategoryController {
   @Get('/:name')
   async getCategory(@Param('name') name: string): Promise<Category> {
     return await this.categoryService.getCategoryByName(name);
+  }
+
+  @Put()
+  async updateCategory(
+    @Body() updateCategoryDto: UpdateCategoryDto,
+    @Param('name') name: string,
+  ): Promise<void> {
+    await this.categoryService.updateCategory(name, updateCategoryDto);
   }
 }

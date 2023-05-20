@@ -1,6 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import CreateCategoryDto from 'src/category/domain/dtos/create-category.dto';
+import UpdateCategoryDto from 'src/category/domain/dtos/update-category.dto';
 import Category from 'src/category/domain/entities/category.interface';
 import CategoryRepository from 'src/category/domain/repositories/category.repository';
 
@@ -20,5 +21,14 @@ export default class CategoryMongooseRepository implements CategoryRepository {
   async create(createCategoryDto: CreateCategoryDto): Promise<void> {
     const categoryCreated = new this.categoryModel(createCategoryDto);
     categoryCreated.save();
+  }
+
+  async update(
+    name: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<void> {
+    this.categoryModel
+      .findOneAndUpdate({ name: name }, { $set: updateCategoryDto })
+      .exec();
   }
 }
