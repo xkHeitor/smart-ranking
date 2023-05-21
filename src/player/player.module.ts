@@ -7,5 +7,6 @@ import { PlayerRepositoryModule } from './domain/repositories/player-repository.
   controllers: [PlayerController],
   providers: [PlayerService],
   imports: [PlayerRepositoryModule],
+  exports: [PlayerService],
 })
 export class PlayerModule {}
