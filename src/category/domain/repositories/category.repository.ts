@@ -6,6 +6,10 @@ export default abstract class CategoryRepository {
   abstract getAll(): Promise<Category[]>;
   abstract create(createCategoryDto: CreateCategoryDto): Promise<void>;
   abstract findByName(name: string): Promise<Category>;
+  abstract verifyPlayerInCategory(
+    categoryName: string,
+    playerId: any,
+  ): Promise<any>;
   abstract update(
     name: string,
     updateCategoryDto: UpdateCategoryDto,

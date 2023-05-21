@@ -35,11 +35,17 @@ export class CategoryController {
     return await this.categoryService.getCategoryByName(name);
   }
 
-  @Put(':/name')
+  @Put('/:name')
+  @UsePipes(ValidationPipe)
   async updateCategory(
     @Body() updateCategoryDto: UpdateCategoryDto,
     @Param('name') name: string,
   ): Promise<void> {
     await this.categoryService.updateCategory(name, updateCategoryDto);
+  }
+
+  @Post('/:categoryName/player/:playerId')
+  async assignPlayerToCategory(@Param() params: string[]): Promise<void> {
+    await this.categoryService.assignPlayerToCategory(params);
   }
 }

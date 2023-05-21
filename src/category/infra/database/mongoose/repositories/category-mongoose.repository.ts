@@ -11,11 +11,11 @@ export default class CategoryMongooseRepository implements CategoryRepository {
   ) {}
 
   async findByName(name: string): Promise<Category> {
-    return this.categoryModel.findOne({ name }).exec();
+    return this.categoryModel.findOne({ name }).populate('players').exec();
   }
 
   async getAll(): Promise<Category[]> {
-    return this.categoryModel.find().exec();
+    return this.categoryModel.find().populate('players').exec();
   }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<void> {
@@ -28,7 +28,18 @@ export default class CategoryMongooseRepository implements CategoryRepository {
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
     this.categoryModel
-      .findOneAndUpdate({ name: name }, { $set: updateCategoryDto })
+      .findOneAndUpdate({ name }, { $set: updateCategoryDto })
+      .exec();
+  }
+
+  async verifyPlayerInCategory(
+    categoryName: string,
+    playerId: any,
+  ): Promise<any> {
+    return this.categoryModel
+      .find({ name: categoryName })
+      .where('players')
+      .in(playerId)
       .exec();
   }
 }
