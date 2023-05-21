@@ -35,7 +35,7 @@ export class CategoryController {
     return await this.categoryService.getCategoryByName(name);
   }
 
-  @Put()
+  @Put(':/name')
   async updateCategory(
     @Body() updateCategoryDto: UpdateCategoryDto,
     @Param('name') name: string,
