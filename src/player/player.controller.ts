@@ -13,7 +13,7 @@ import {
 import CreatePlayerDto from './domain/dtos/create-player.dto';
 import { PlayerService } from './player.service';
 import Player from './domain/entities/player.interface';
-import PlayerValidationParamsPipe from './infra/pipes/player-validation-params.pipe';
+import PlayerValidationParamsPipe from '../common/pipes/validation-params.pipe';
 import UpdatePlayerDto from './domain/dtos/update-player.dto';
 
 @Controller('api/v1/player')
