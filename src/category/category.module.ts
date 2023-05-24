@@ -8,5 +8,6 @@ import { PlayerModule } from 'src/player/player.module';
   providers: [CategoryService],
   controllers: [CategoryController],
   imports: [CategoryRepositoryModule, PlayerModule],
+  exports: [CategoryService],
 })
 export class CategoryModule {}
