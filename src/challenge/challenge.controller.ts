@@ -35,35 +35,35 @@ export class ChallengeController {
     return await this.challengeService.createChallenge(createChallengeDto);
   }
 
-  @Get()
-  async getChallenges(@Query('playerId') id: string): Promise<Challenge[]> {
-    return id
-      ? await this.challengeService.getOneChallenge(id)
-      : await this.challengeService.getAllChallenges();
-  }
+  // @Get()
+  // async getChallenges(@Query('playerId') id: string): Promise<Challenge[]> {
+  //   return id
+  //     ? await this.challengeService.getOneChallenge(id)
+  //     : await this.challengeService.getAllChallenges();
+  // }
 
-  @Put('/:challenge')
-  async atualizarDesafio(
-    @Body(StatusChallengeValidationPipe)
-    atualizarDesafioDto: UpdateChallengeDto,
-    @Param('challenge') id: string,
-  ): Promise<void> {
-    await this.challengeService.updateChallenge(id, atualizarDesafioDto);
-  }
+  // @Put('/:challenge')
+  // async updateChallenge(
+  //   @Body(StatusChallengeValidationPipe)
+  //   updateChallengeDto: UpdateChallengeDto,
+  //   @Param('challenge') id: string,
+  // ): Promise<void> {
+  //   await this.challengeService.updateChallenge(id, atualizarDesafioDto);
+  // }
 
-  @Post('/:challenge/match/')
-  async atribuirDesafioPartida(
-    @Body(ValidationPipe) atribuirDesafioPartidaDto: AssignMatchChallengeDto,
-    @Param('challenge') id: string,
-  ): Promise<void> {
-    return await this.challengeService.assignMatchChallenge(
-      id,
-      atribuirDesafioPartidaDto,
-    );
-  }
+  // @Post('/:challenge/match/')
+  // async assignMatchChallenge(
+  //   @Body(ValidationPipe) assignMatchChallengeDto: AssignMatchChallengeDto,
+  //   @Param('challenge') id: string,
+  // ): Promise<void> {
+  //   return await this.challengeService.assignMatchChallenge(
+  //     id,
+  //     assignMatchChallengeDto,
+  //   );
+  // }
 
-  @Delete('/:id')
-  async deleteChallenge(@Param('id') id: string): Promise<void> {
-    await this.challengeService.deleteChallenge(id);
-  }
+  // @Delete('/:id')
+  // async deleteChallenge(@Param('id') id: string): Promise<void> {
+  //   await this.challengeService.deleteChallenge(id);
+  // }
 }
