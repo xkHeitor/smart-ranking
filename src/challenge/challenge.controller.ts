@@ -35,12 +35,14 @@ export class ChallengeController {
     return await this.challengeService.createChallenge(createChallengeDto);
   }
 
-  // @Get()
-  // async getChallenges(@Query('playerId') id: string): Promise<Challenge[]> {
-  //   return id
-  //     ? await this.challengeService.getOneChallenge(id)
-  //     : await this.challengeService.getAllChallenges();
-  // }
+  @Get()
+  async getChallenges(
+    @Query('playerId') id: string,
+  ): Promise<Challenge[] | Challenge> {
+    return id
+      ? await this.challengeService.getOneChallenge(id)
+      : await this.challengeService.getAllChallenges();
+  }
 
   // @Put('/:challenge')
   // async updateChallenge(

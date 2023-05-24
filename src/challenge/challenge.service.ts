@@ -35,8 +35,13 @@ export class ChallengeService {
     );
   }
 
-  // async getOneChallenge(id: string): Promise<Challenge> {}
-  // async getAllChallenges(): Promise<Challenge[]> {}
+  async getOneChallenge(id: string): Promise<Challenge> {
+    return this.challengeRepository.getFindById(id);
+  }
+
+  async getAllChallenges(): Promise<Challenge[]> {
+    return this.challengeRepository.getAll();
+  }
   // async updateChallenge(
   //   id: string,
   //   updateChallengeDto: UpdateChallengeDto,
