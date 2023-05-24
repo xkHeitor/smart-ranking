@@ -8,8 +8,9 @@ export default abstract class CategoryRepository {
   abstract findByName(name: string): Promise<Category>;
   abstract verifyPlayerInCategory(
     categoryName: string,
-    playerId: any,
+    playerId: string,
   ): Promise<any>;
+  abstract verifyPlayerCategories(playerId: string): Promise<any>;
   abstract update(
     name: string,
     updateCategoryDto: UpdateCategoryDto,

@@ -69,4 +69,9 @@ export class CategoryService {
     foundCategory.players.push(playerId);
     return this.categoryRepository.update(categoryName, foundCategory);
   }
+
+  async findPlayerInCategories(playerId: any): Promise<Category> {
+    await this.playerService.getPlayerById(playerId);
+    return this.categoryRepository.verifyPlayerCategories(playerId);
+  }
 }

@@ -20,14 +20,14 @@ export default class CategoryMongooseRepository implements CategoryRepository {
 
   async create(createCategoryDto: CreateCategoryDto): Promise<void> {
     const categoryCreated = new this.categoryModel(createCategoryDto);
-    categoryCreated.save();
+    await categoryCreated.save();
   }
 
   async update(
     name: string,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
-    this.categoryModel
+    await this.categoryModel
       .findOneAndUpdate({ name }, { $set: updateCategoryDto })
       .exec();
   }
@@ -41,5 +41,9 @@ export default class CategoryMongooseRepository implements CategoryRepository {
       .where('players')
       .in(playerId)
       .exec();
+  }
+
+  async verifyPlayerCategories(playerId: any): Promise<any> {
+    return this.categoryModel.findOne().where('players').in(playerId).exec();
   }
 }
