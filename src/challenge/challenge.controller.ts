@@ -37,10 +37,10 @@ export class ChallengeController {
 
   @Get()
   async getChallenges(
-    @Query('playerId') id: string,
+    @Query('playerId') playerId: string,
   ): Promise<Challenge[] | Challenge> {
-    return id
-      ? await this.challengeService.getOneChallenge(id)
+    return playerId
+      ? await this.challengeService.getChallengeByPlayer(playerId)
       : await this.challengeService.getAllChallenges();
   }
 

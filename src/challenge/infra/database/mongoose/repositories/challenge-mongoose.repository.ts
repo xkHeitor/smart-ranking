@@ -31,6 +31,17 @@ export default class ChallengeMongooseRepository
       .exec();
   }
 
+  async getChallengeByPlayer(playerId: string): Promise<Challenge[]> {
+    return this.challengeModel
+      .find()
+      .where('players')
+      .in(playerId as any)
+      .populate('players')
+      .populate('requester')
+      .populate('category')
+      .exec();
+  }
+
   async create(
     createChallengeDto: CreateChallengeDto,
     categoryId: string,

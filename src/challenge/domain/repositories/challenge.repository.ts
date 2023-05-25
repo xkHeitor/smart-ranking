@@ -4,7 +4,8 @@ import Challenge from '../entities/challenge.interface';
 
 export default abstract class ChallengeRepository {
   abstract getAll(): Promise<Challenge[]>;
-  abstract getFindById(id: string): Promise<Challenge | undefined>;
+  abstract getChallengeByPlayer(playerId: string): Promise<Challenge[]>;
+  abstract getFindById(id: string): Promise<Challenge>;
   abstract create(
     createChallengeDto: CreateChallengeDto,
     categoryId: string,

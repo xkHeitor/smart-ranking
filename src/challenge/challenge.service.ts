@@ -35,12 +35,13 @@ export class ChallengeService {
     );
   }
 
-  async getOneChallenge(id: string): Promise<Challenge> {
-    return this.challengeRepository.getFindById(id);
-  }
-
   async getAllChallenges(): Promise<Challenge[]> {
     return this.challengeRepository.getAll();
+  }
+
+  async getChallengeByPlayer(playerId: string): Promise<Challenge[]> {
+    await this.playerService.getPlayerById(playerId);
+    return this.challengeRepository.getChallengeByPlayer(playerId);
   }
   // async updateChallenge(
   //   id: string,
