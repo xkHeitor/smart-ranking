@@ -44,14 +44,14 @@ export class ChallengeController {
       : await this.challengeService.getAllChallenges();
   }
 
-  // @Put('/:challenge')
-  // async updateChallenge(
-  //   @Body(StatusChallengeValidationPipe)
-  //   updateChallengeDto: UpdateChallengeDto,
-  //   @Param('challenge') id: string,
-  // ): Promise<void> {
-  //   await this.challengeService.updateChallenge(id, atualizarDesafioDto);
-  // }
+  @Put('/:challenge')
+  async updateChallenge(
+    @Body(StatusChallengeValidationPipe)
+    updateChallengeDto: UpdateChallengeDto,
+    @Param('challenge') id: string,
+  ): Promise<void> {
+    await this.challengeService.updateChallenge(id, updateChallengeDto);
+  }
 
   // @Post('/:challenge/match/')
   // async assignMatchChallenge(
@@ -64,8 +64,8 @@ export class ChallengeController {
   //   );
   // }
 
-  // @Delete('/:id')
-  // async deleteChallenge(@Param('id') id: string): Promise<void> {
-  //   await this.challengeService.deleteChallenge(id);
-  // }
+  @Delete('/:id')
+  async deleteChallenge(@Param('id') id: string): Promise<void> {
+    await this.challengeService.deleteChallenge(id);
+  }
 }

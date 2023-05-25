@@ -1,7 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import CreateChallengeDto from 'src/challenge/domain/dtos/create-challenge.dto';
-import UpdateChallengeDto from 'src/challenge/domain/dtos/update-challenge.dto';
 import Challenge from 'src/challenge/domain/entities/challenge.interface';
 import { StatusChallenge } from 'src/challenge/domain/entities/status-challenge.interface';
 import ChallengeRepository from 'src/challenge/domain/repositories/challenge.repository';
@@ -53,10 +52,7 @@ export default class ChallengeMongooseRepository
     return createdChallenge.save();
   }
 
-  async update(
-    id: string,
-    updateChallengeDto: UpdateChallengeDto,
-  ): Promise<void> {
+  async update(id: string, updateChallengeDto: Challenge): Promise<void> {
     await this.challengeModel
       .findOneAndUpdate({ _id: id }, { $set: updateChallengeDto })
       .exec();
