@@ -14,11 +14,21 @@ export default class ChallengeMongooseRepository
   ) {}
 
   async getAll(): Promise<Challenge[]> {
-    return this.challengeModel.find().populate('players').exec();
+    return this.challengeModel
+      .find()
+      .populate('players')
+      .populate('requester')
+      .populate('category')
+      .exec();
   }
 
   async getFindById(id: string): Promise<Challenge> {
-    return this.challengeModel.findOne({ _id: id }).populate('players').exec();
+    return this.challengeModel
+      .findOne({ _id: id })
+      .populate('players')
+      .populate('requester')
+      .populate('category')
+      .exec();
   }
 
   async create(
