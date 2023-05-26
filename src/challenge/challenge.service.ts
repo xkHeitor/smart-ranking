@@ -91,8 +91,9 @@ export class ChallengeService {
       throw new BadRequestException('Winner not found');
 
     const createMatchDto = {
-      ...assignMatchChallengeDto,
-      category: challengeFound.category,
+      winner: assignMatchChallengeDto.winner,
+      result: assignMatchChallengeDto.result,
+      category: challengeFound.category._id,
       players: challengeFound.players,
     } as unknown as Match;
     const match = await this.matchRepository.create(createMatchDto);
@@ -103,6 +104,8 @@ export class ChallengeService {
     try {
       await this.challengeRepository.update(challengeFound._id, challengeFound);
     } catch (err: any) {
+      challengeFound.status = StatusChallenge.CANCEL;
+      await this.challengeRepository.update(challengeFound._id, challengeFound);
       await this.matchRepository.deleteById(match._id);
       throw new InternalServerErrorException();
     }

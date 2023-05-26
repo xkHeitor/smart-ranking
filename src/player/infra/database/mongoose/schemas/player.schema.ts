@@ -1,6 +1,6 @@
-import * as mongoose from 'mongoose';
+import generateSchema from 'src/common/database/mongoose/generate-schema';
 
-export const PlayerSchema = new mongoose.Schema(
+export const PlayerSchema = generateSchema(
   {
     email: { type: 'string', unique: true },
     phoneNumber: String,
@@ -9,5 +9,5 @@ export const PlayerSchema = new mongoose.Schema(
     rankingPosition: Number,
     photoUR: String,
   },
-  { timestamps: true, collection: 'players' },
+  'players',
 );

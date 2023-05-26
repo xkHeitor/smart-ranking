@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
+import generateSchema from 'src/common/database/mongoose/generate-schema';
 
-export const ChallengeSchema = new mongoose.Schema(
+export const ChallengeSchema = generateSchema(
   {
     dateTimeMatch: { type: Date },
     status: { type: String },
@@ -19,5 +20,5 @@ export const ChallengeSchema = new mongoose.Schema(
       ref: 'Match',
     },
   },
-  { timestamps: true, collection: 'challenges' },
+  'challenges',
 );

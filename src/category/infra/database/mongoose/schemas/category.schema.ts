@@ -1,6 +1,7 @@
 import mongoose, * as Mongoose from 'mongoose';
+import generateSchema from 'src/common/database/mongoose/generate-schema';
 
-export const CategorySchema = new Mongoose.Schema(
+export const CategorySchema = generateSchema(
   {
     name: { type: 'string', unique: true },
     description: String,
@@ -18,5 +19,5 @@ export const CategorySchema = new Mongoose.Schema(
       },
     ],
   },
-  { timestamps: true, collection: 'categories' },
+  'categories',
 );

@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 import { StatusChallenge } from './status-challenge.interface';
 import Player from 'src/player/domain/entities/player.interface';
+import Category from 'src/category/domain/entities/category.interface';
 
 export default interface Challenge extends Document {
   dateTimeMatch: Date;
@@ -8,7 +9,7 @@ export default interface Challenge extends Document {
   dateTimeRequest: Date;
   dateTimeResponse?: Date;
   requester: string;
-  category: string;
+  category: Category;
   players: Player[];
   match?: string;
 }

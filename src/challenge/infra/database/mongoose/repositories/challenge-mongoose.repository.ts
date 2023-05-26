@@ -1,5 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import Category from 'src/category/domain/entities/category.interface';
 import CreateChallengeDto from 'src/challenge/domain/dtos/create-challenge.dto';
 import Challenge from 'src/challenge/domain/entities/challenge.interface';
 import { StatusChallenge } from 'src/challenge/domain/entities/status-challenge.interface';
@@ -18,6 +19,7 @@ export default class ChallengeMongooseRepository
       .populate('players')
       .populate('requester')
       .populate('category')
+      .populate('match')
       .exec();
   }
 
@@ -27,6 +29,7 @@ export default class ChallengeMongooseRepository
       .populate('players')
       .populate('requester')
       .populate('category')
+      .populate('match')
       .exec();
   }
 
@@ -46,7 +49,7 @@ export default class ChallengeMongooseRepository
     categoryId: string,
   ): Promise<Challenge> {
     const createdChallenge = new this.challengeModel(createChallengeDto);
-    createdChallenge.category = categoryId;
+    createdChallenge.category = categoryId as unknown as Category;
     createdChallenge.dateTimeRequest = new Date();
     createdChallenge.status = StatusChallenge.PENDING;
     return createdChallenge.save();
