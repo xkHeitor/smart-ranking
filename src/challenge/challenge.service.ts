@@ -6,16 +6,20 @@ import {
 import Player from 'src/player/domain/entities/player.interface';
 import { PlayerService } from 'src/player/player.service';
 import { CategoryService } from './../category/category.service';
-import CreateChallengeDto from './domain/dtos/create-challenge.dto';
-import ChallengeRepository from './domain/repositories/challenge.repository';
-import Challenge from './domain/entities/challenge.interface';
-import UpdateChallengeDto from './domain/dtos/update-challenge.dto';
 import AssignMatchChallengeDto from './domain/dtos/assign-match-challenge.dto';
+import CreateChallengeDto from './domain/dtos/create-challenge.dto';
+import UpdateChallengeDto from './domain/dtos/update-challenge.dto';
+import Challenge from './domain/entities/challenge.interface';
+import ChallengeRepository from './domain/repositories/challenge.repository';
+import MatchRepository from './domain/repositories/match.repository';
+import Match from './domain/entities/match.interface';
+import { StatusChallenge } from './domain/entities/status-challenge.interface';
 
 @Injectable()
 export class ChallengeService {
   constructor(
     private readonly challengeRepository: ChallengeRepository,
+    private readonly matchRepository: MatchRepository,
     private readonly categoryService: CategoryService,
     private readonly playerService: PlayerService,
   ) {}
@@ -79,6 +83,28 @@ export class ChallengeService {
     id: string,
     assignMatchChallengeDto: AssignMatchChallengeDto,
   ): Promise<void> {
-    throw new InternalServerErrorException('not Implementation');
+    const challengeFound = await this.getChallengesById(id);
+    const winnerIsOnChallenge = challengeFound.players.filter(
+      (player) => player._id == assignMatchChallengeDto.winner,
+    );
+    if (!winnerIsOnChallenge.length)
+      throw new BadRequestException('Winner not found');
+
+    const createMatchDto = {
+      ...assignMatchChallengeDto,
+      category: challengeFound.category,
+      players: challengeFound.players,
+    } as unknown as Match;
+    const match = await this.matchRepository.create(createMatchDto);
+
+    challengeFound.status = StatusChallenge.FINISH;
+    challengeFound.match = match._id;
+
+    try {
+      await this.challengeRepository.update(challengeFound._id, challengeFound);
+    } catch (err: any) {
+      await this.matchRepository.deleteById(match._id);
+      throw new InternalServerErrorException();
+    }
   }
 }

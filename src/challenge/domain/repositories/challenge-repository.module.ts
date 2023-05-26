@@ -5,10 +5,14 @@ import ChallengeRepository from './challenge.repository';
 import ChallengeMongooseRepository from 'src/challenge/infra/database/mongoose/repositories/challenge-mongoose.repository';
 import MatchRepository from './match.repository';
 import MatchMongooseRepository from 'src/challenge/infra/database/mongoose/repositories/match-mongoose.repository';
+import { MatchSchema } from 'src/challenge/infra/database/mongoose/schemas/match.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Challenge', schema: ChallengeSchema }]),
+    MongooseModule.forFeature([
+      { name: 'Challenge', schema: ChallengeSchema },
+      { name: 'Match', schema: MatchSchema },
+    ]),
   ],
   providers: [
     {

@@ -8,9 +8,9 @@ export default class MatchMongooseRepository implements MatchRepository {
     @InjectModel('Match') private readonly matchModel: Model<Match>,
   ) {}
 
-  async create(createMatch: Match): Promise<void> {
+  async create(createMatch: Match): Promise<Match> {
     const match = new this.matchModel(createMatch);
-    await match.save();
+    return match.save();
   }
 
   async deleteById(_id: string): Promise<void> {
