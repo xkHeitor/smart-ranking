@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import Player from 'src/player/domain/entities/player.interface';
 import { PlayerService } from 'src/player/player.service';
 import { CategoryService } from './../category/category.service';
@@ -6,6 +10,7 @@ import CreateChallengeDto from './domain/dtos/create-challenge.dto';
 import ChallengeRepository from './domain/repositories/challenge.repository';
 import Challenge from './domain/entities/challenge.interface';
 import UpdateChallengeDto from './domain/dtos/update-challenge.dto';
+import AssignMatchChallengeDto from './domain/dtos/assign-match-challenge.dto';
 
 @Injectable()
 export class ChallengeService {
@@ -70,9 +75,10 @@ export class ChallengeService {
     await this.challengeRepository.delete(id);
   }
 
-  // async assignMatchChallenge(
-  //   id: string,
-  //   assignMatchChallengeDto: AssignMatchChallengeDto,
-  // ): Promise<void> {}
-  // async deleteChallenge(id: string): Promise<void> {}
+  async assignMatchChallenge(
+    id: string,
+    assignMatchChallengeDto: AssignMatchChallengeDto,
+  ): Promise<void> {
+    throw new InternalServerErrorException('not Implementation');
+  }
 }

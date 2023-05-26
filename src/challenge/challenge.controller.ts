@@ -53,16 +53,16 @@ export class ChallengeController {
     await this.challengeService.updateChallenge(id, updateChallengeDto);
   }
 
-  // @Post('/:challenge/match/')
-  // async assignMatchChallenge(
-  //   @Body(ValidationPipe) assignMatchChallengeDto: AssignMatchChallengeDto,
-  //   @Param('challenge') id: string,
-  // ): Promise<void> {
-  //   return await this.challengeService.assignMatchChallenge(
-  //     id,
-  //     assignMatchChallengeDto,
-  //   );
-  // }
+  @Post('/:challenge/match/')
+  async assignMatchChallenge(
+    @Body(ValidationPipe) assignMatchChallengeDto: AssignMatchChallengeDto,
+    @Param('challenge') id: string,
+  ): Promise<void> {
+    return await this.challengeService.assignMatchChallenge(
+      id,
+      assignMatchChallengeDto,
+    );
+  }
 
   @Delete('/:id')
   async deleteChallenge(@Param('id') id: string): Promise<void> {
