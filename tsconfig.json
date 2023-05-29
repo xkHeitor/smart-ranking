@@ -21,7 +21,7 @@
         "apps/initial/src"
       ],
       "@api-gateway": [
-        "apps/api-gateway2/src"
+        "apps/api-gateway/src"
       ],
       "@app/test": [
         "libs/test/src"
