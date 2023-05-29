@@ -20,5 +20,3 @@ import AllExceptionFilter from './filters/http-exception.filter';
 
   await app.listen(configService.get<number>('app.port'));
 })();
-
-// Teste
