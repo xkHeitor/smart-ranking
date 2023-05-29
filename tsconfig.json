@@ -12,10 +12,23 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "esModuleInterop": true,
+    "paths": {
+      "@configs": [
+        "configs"
+      ],
+      "@main": [
+        "apps/initial/src"
+      ],
+      "@api-gateway": [
+        "apps/api-gateway/src"
+      ],
+      "@app/test": [
+        "libs/test/src"
+      ],
+      "@app/test/*": [
+        "libs/test/src/*"
+      ]
+    }
   }
 }
