@@ -16,5 +16,4 @@ import { ConfigService } from '@nestjs/config';
 
   const PORT: number = configService.get<number>('main.port');
   await app.listen(PORT);
-  console.log();
 })();
