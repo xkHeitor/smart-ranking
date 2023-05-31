@@ -20,11 +20,14 @@
       "@queue": [
         "apps/common/src/queue"
       ],
-      "@initial": [
-        "apps/initial/src"
+      "@initial/*": [
+        "apps/initial/src/*"
       ],
-      "@api-gateway": [
-        "apps/api-gateway/src"
+      "@api-gateway/*": [
+        "apps/api-gateway/src/*"
+      ],
+      "@micro-admin-backend/*": [
+        "apps/micro-admin-backend/src/*"
       ]
     }
   }

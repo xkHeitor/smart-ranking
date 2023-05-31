@@ -25,7 +25,7 @@
     "micro-admin-backend": {
       "type": "application",
       "root": "apps/micro-admin-backend",
-      "entryFile": "main",
+      "entryFile": "micro-admin-backend/src/main",
       "sourceRoot": "apps/micro-admin-backend/src",
       "compilerOptions": {
         "tsConfigPath": "apps/micro-admin-backend/tsconfig.app.json"
