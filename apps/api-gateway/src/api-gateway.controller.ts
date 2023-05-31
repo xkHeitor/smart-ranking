@@ -19,8 +19,9 @@ export default class ApiGatewayController {
     private readonly configService: ConfigService,
   ) {
     const rabbitmqUrl = this.configService.get<string>('rabbitmq.urlConnect');
+    const rabbitmqVhost = this.configService.get<string>('rabbitmq.vhost');
     const queueName = this.configService.get<string>('api-gateway.queueName');
-    this.queue.connect(rabbitmqUrl, queueName);
+    this.queue.connect(`${rabbitmqUrl}/${rabbitmqVhost}`, queueName);
   }
 
   @Post('categories')
