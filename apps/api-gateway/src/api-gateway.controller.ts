@@ -29,6 +29,9 @@ export default class ApiGatewayController {
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
   ): Promise<any> {
-    return await this.queue.emitter('create-category', createCategoryDto);
+    await this.queue.emitter('create-category', createCategoryDto);
+    this.logger.log(
+      `create-category emitted to ${JSON.stringify(createCategoryDto)}`,
+    );
   }
 }
