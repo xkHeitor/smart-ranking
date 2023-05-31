@@ -7,7 +7,7 @@
     "init": {
       "type": "application",
       "root": "apps/initial",
-      "entryFile": "main",
+      "entryFile": "initial/src/main",
       "sourceRoot": "apps/initial/src",
       "compilerOptions": {
         "tsConfigPath": "apps/initial/tsconfig.app.json"
@@ -16,7 +16,7 @@
     "api-gateway": {
       "type": "application",
       "root": "apps/api-gateway",
-      "entryFile": "main",
+      "entryFile": "api-gateway/src/main",
       "sourceRoot": "apps/api-gateway/src",
       "compilerOptions": {
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"

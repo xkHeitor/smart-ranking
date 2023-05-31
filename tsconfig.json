@@ -15,19 +15,16 @@
     "esModuleInterop": true,
     "paths": {
       "@configs": [
-        "configs"
+        "apps/common/src/configs"
       ],
-      "@main": [
+      "@queue": [
+        "apps/common/src/queue"
+      ],
+      "@initial": [
         "apps/initial/src"
       ],
       "@api-gateway": [
         "apps/api-gateway/src"
-      ],
-      "@app/test": [
-        "libs/test/src"
-      ],
-      "@app/test/*": [
-        "libs/test/src/*"
       ]
     }
   }

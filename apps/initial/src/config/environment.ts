@@ -10,6 +10,6 @@ export default class Environments {
   }
 
   getDbConnection(): string {
-    return process.env.DB_CONNECT;
+    return process.env.DB_CONNECT_MONGO;
   }
 }

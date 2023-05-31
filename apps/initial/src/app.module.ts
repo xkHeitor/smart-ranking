@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PlayerModule } from './player/player.module';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Configs } from 'apps/common/src/configs';
 import { CategoryModule } from './category/category.module';
 import { ChallengeModule } from './challenge/challenge.module';
 import Environments from './config/environment';
-import { ConfigModule } from '@nestjs/config';
-import { Configs } from 'configs/index.config';
+import { PlayerModule } from './player/player.module';
 
 const Envs = new Environments();
 @Module({
@@ -18,7 +18,5 @@ const Envs = new Environments();
     CategoryModule,
     ChallengeModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
