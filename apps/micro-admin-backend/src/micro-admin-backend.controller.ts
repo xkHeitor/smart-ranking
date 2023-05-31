@@ -14,5 +14,6 @@ export class MicroAdminBackendController {
   @EventPattern('create-category') // Listener
   async createCategory(@Payload() category: Category): Promise<void> {
     this.logger.log(`category: ${JSON.stringify(category)}`);
+    await this.microAdminBackendService.createCategory(category);
   }
 }

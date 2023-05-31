@@ -10,7 +10,7 @@ import { MicroAdminBackendController } from './micro-admin-backend.controller';
 import { MicroAdminBackendService } from './micro-admin-backend.service';
 
 config();
-const urlMongoConnect = `${process.env.DB_URL_MONGO}${process.env.DB_CONFIG_MONGO}${process.env.DB_MONGO_NAME_MICRO_ADMIN}`;
+const urlMongoConnect = `${process.env.DB_URL_MONGO}${process.env.DB_MONGO_NAME_MICRO_ADMIN}${process.env.DB_CONFIG_MONGO}`;
 @Module({
   controllers: [MicroAdminBackendController],
   providers: [MicroAdminBackendService],
