@@ -3,9 +3,11 @@ import { NestFactory } from '@nestjs/core';
 import * as momentTimezone from 'moment-timezone';
 import { ApiGatewayModule } from './api-gateway.module';
 import AllExceptionFilter from './infra/filters/http-exception.filter';
+import LoggingInterceptor from './infra/interceptors/logging.interceptor';
 
 (async function bootstrap() {
   const app = await NestFactory.create(ApiGatewayModule);
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalFilters(new AllExceptionFilter());
 
   Date.prototype.toJSON = function (): any {
