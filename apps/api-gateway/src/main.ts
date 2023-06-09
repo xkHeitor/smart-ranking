@@ -4,10 +4,12 @@ import * as momentTimezone from 'moment-timezone';
 import { ApiGatewayModule } from './api-gateway.module';
 import AllExceptionFilter from './infra/filters/http-exception.filter';
 import LoggingInterceptor from './infra/interceptors/logging.interceptor';
+import TimeoutInterceptor from './infra/interceptors/timeout.interceptor';
 
 (async function bootstrap() {
   const app = await NestFactory.create(ApiGatewayModule);
   app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new TimeoutInterceptor());
   app.useGlobalFilters(new AllExceptionFilter());
 
   Date.prototype.toJSON = function (): any {
