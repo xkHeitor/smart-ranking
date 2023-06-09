@@ -21,4 +21,22 @@ export class MicroAdminBackendService {
       throw new RpcException(error.message);
     }
   }
+
+  async getCategoryById(id: string): Promise<Category> {
+    try {
+      return await this.categoryRepository.findById(id);
+    } catch (err: any) {
+      this.logger.error(`error: ${JSON.stringify(err.message)}`);
+      throw new RpcException(err.message);
+    }
+  }
+
+  async getCategories(): Promise<Category[]> {
+    try {
+      return await this.categoryRepository.getAll();
+    } catch (err: any) {
+      this.logger.error(`error: ${JSON.stringify(err.message)}`);
+      throw new RpcException(err.message);
+    }
+  }
 }
