@@ -14,6 +14,10 @@ export default class CategoryMongooseRepository implements CategoryRepository {
     return this.categoryModel.findOne({ name }).populate('players').exec();
   }
 
+  async findById(_id: string): Promise<Category> {
+    return this.categoryModel.findOne({ _id }).populate('players').exec();
+  }
+
   async getAll(): Promise<Category[]> {
     return this.categoryModel.find().populate('players').exec();
   }
