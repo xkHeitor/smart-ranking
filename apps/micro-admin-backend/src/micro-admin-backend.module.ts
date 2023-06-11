@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { config } from 'dotenv';
 
+import { QueueModule } from '@queue';
 import { RepositoryModule } from './domain/repositories/repository.module';
 import { MicroAdminBackendController } from './micro-admin-backend.controller';
 import { MicroAdminBackendService } from './micro-admin-backend.service';
@@ -19,6 +20,7 @@ const urlMongoConnect = `${process.env.DB_URL_MONGO}${process.env.DB_MONGO_NAME_
       load: Configs,
     }),
     RepositoryModule,
+    QueueModule,
     MongooseModule.forRoot(urlMongoConnect),
   ],
 })

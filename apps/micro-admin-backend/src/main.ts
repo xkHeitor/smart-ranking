@@ -11,6 +11,7 @@ import { config } from 'dotenv';
     transport: Transport.RMQ,
     options: {
       urls: [rabbitmqURL],
+      noAck: false,
       queue: queueName,
     },
   });
