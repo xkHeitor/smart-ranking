@@ -25,11 +25,22 @@ export class MicroAdminBackendController {
     @Ctx() context: RmqContext,
   ): Promise<void> {
     this.logger.log(`category: ${JSON.stringify(category)}`);
-    await this.queue.finalizeMsg(
-      this.microAdminBackendService.createCategory,
-      category,
-      context,
-    );
+
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+
+    try {
+      await this.microAdminBackendService.createCategory(category);
+      await channel.ack(originalMsg);
+    } catch (error: any) {
+      this.logger.error(`error:  ${error.message}`);
+      for (const ackError of this.queue.ackErrors) {
+        if (error?.message.includes(ackError)) {
+          await channel.ack(originalMsg);
+          break;
+        }
+      }
+    }
   }
 
   @MessagePattern('get-categories')
@@ -37,10 +48,23 @@ export class MicroAdminBackendController {
     @Payload() id: string,
     @Ctx() context: RmqContext,
   ): Promise<any> {
-    const callback = id
-      ? this.microAdminBackendService.getCategoryById
-      : this.microAdminBackendService.getCategories;
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
 
-    return await this.queue.finalizeMsg(callback, id, context);
+    try {
+      const response = await (id
+        ? this.microAdminBackendService.getCategoryById(id)
+        : this.microAdminBackendService.getCategories());
+      await channel.ack(originalMsg);
+      return response;
+    } catch (error: any) {
+      this.logger.error(`error:  ${error.message}`);
+      for (const ackError of this.queue.ackErrors) {
+        if (error?.message.includes(ackError)) {
+          await channel.ack(originalMsg);
+          break;
+        }
+      }
+    }
   }
 }
