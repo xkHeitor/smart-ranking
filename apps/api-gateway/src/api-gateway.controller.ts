@@ -3,7 +3,9 @@ import {
   Controller,
   Get,
   Logger,
+  Param,
   Post,
+  Put,
   Query,
   UsePipes,
   ValidationPipe,
@@ -12,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
 import Queue from 'apps/common/src/queue/queue.interface';
 import CreateCategoryDto from './domain/dtos/create-category.dto';
 import { Observable } from 'rxjs';
+import UpdateCategoryDto from './domain/dtos/update-category.dto';
 
 @Controller('api/v1')
 export default class ApiGatewayController {
@@ -40,5 +43,17 @@ export default class ApiGatewayController {
     @Query('categoryId') _id: string,
   ): Promise<Observable<void>> {
     return this.queue.sender('get-categories', _id || '');
+  }
+
+  @Put('categories/:id')
+  @UsePipes(ValidationPipe)
+  async updateCategory(
+    @Body() updateCategoryDto: UpdateCategoryDto,
+    @Param('id') id: string,
+  ): Promise<Observable<void>> {
+    return this.queue.emitter('update-category', {
+      id: id,
+      category: updateCategoryDto,
+    });
   }
 }
