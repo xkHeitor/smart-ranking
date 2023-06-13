@@ -13,7 +13,7 @@ export default abstract class CategoryRepository {
   ): Promise<any>;
   abstract verifyPlayerCategories(playerId: string): Promise<any>;
   abstract update(
-    name: string,
+    _id: string,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<void>;
 }

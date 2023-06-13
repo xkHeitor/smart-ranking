@@ -28,11 +28,11 @@ export default class CategoryMongooseRepository implements CategoryRepository {
   }
 
   async update(
-    name: string,
+    _id: string,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
     await this.categoryModel
-      .findOneAndUpdate({ name }, { $set: updateCategoryDto })
+      .findOneAndUpdate({ _id }, { $set: updateCategoryDto })
       .exec();
   }
 
