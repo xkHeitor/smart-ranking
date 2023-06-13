@@ -52,19 +52,11 @@ export class MicroAdminBackendController {
     const originalMsg = context.getMessage();
 
     try {
-      const response = await (id
+      return await (id
         ? this.microAdminBackendService.getCategoryById(id)
         : this.microAdminBackendService.getCategories());
+    } finally {
       await channel.ack(originalMsg);
-      return response;
-    } catch (error: any) {
-      this.logger.error(`error:  ${error.message}`);
-      for (const ackError of this.queue.ackErrors) {
-        if (error?.message.includes(ackError)) {
-          await channel.ack(originalMsg);
-          break;
-        }
-      }
     }
   }
 }
