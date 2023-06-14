@@ -11,7 +11,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import Queue from 'apps/common/src/queue/queue.interface';
+
+import { Queue } from '@queue';
 import { Observable } from 'rxjs';
 import CreateCategoryDto from './domain/dtos/create-category.dto';
 import UpdateCategoryDto from './domain/dtos/update-category.dto';

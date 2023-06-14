@@ -4,7 +4,7 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import Queue from './queue.interface';
+import { Queue } from './queue.interface';
 
 @Injectable()
 export default class RabbitMQAdapter implements Queue {

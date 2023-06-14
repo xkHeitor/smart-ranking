@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import Queue from './queue.interface';
+import { Queue } from './queue.interface';
 import RabbitMQAdapter from './rabbitmq.adapter';
 
 @Module({
