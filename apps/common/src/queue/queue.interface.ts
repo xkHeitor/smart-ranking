@@ -1,6 +1,8 @@
+import { ConfigService } from '@nestjs/config';
+
 export abstract class Queue {
   readonly ackErrors: string[];
-  abstract connect(rabbitmqUrl: string, queue: string): void;
+  abstract connect(configService: ConfigService): void;
   abstract emitter(pattern: string, data: any): Promise<any>;
   abstract sender(pattern: string, data: any): Promise<any>;
 }

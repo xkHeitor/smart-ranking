@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -16,12 +17,15 @@ export default class RabbitMQAdapter implements Queue {
     this.ackErrors = ['E11000'];
   }
 
-  connect(rabbitmqUrl: string, queue: string): void {
+  connect(configService: ConfigService): void {
+    const rabbitmqUrl = configService.get<string>('rabbitmq.urlConnect');
+    const rabbitmqVhost = configService.get<string>('rabbitmq.vhost');
+    const queueName = configService.get<string>('api-gateway.queueName');
     this.clientAdminBackend = ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {
-        urls: [rabbitmqUrl],
-        queue: queue,
+        urls: [`${rabbitmqUrl}/${rabbitmqVhost}`],
+        queue: queueName,
       },
     });
   }

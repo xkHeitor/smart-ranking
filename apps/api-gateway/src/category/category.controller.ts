@@ -25,10 +25,7 @@ export default class CategoryController {
     private readonly queue: Queue,
     private readonly configService: ConfigService,
   ) {
-    const rabbitmqUrl = this.configService.get<string>('rabbitmq.urlConnect');
-    const rabbitmqVhost = this.configService.get<string>('rabbitmq.vhost');
-    const queueName = this.configService.get<string>('api-gateway.queueName');
-    this.queue.connect(`${rabbitmqUrl}/${rabbitmqVhost}`, queueName);
+    this.queue.connect(this.configService);
   }
 
   @Post('categories')
