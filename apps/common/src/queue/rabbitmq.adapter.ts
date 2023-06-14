@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -6,6 +6,7 @@ import {
 } from '@nestjs/microservices';
 import Queue from './queue.interface';
 
+@Injectable()
 export default class RabbitMQAdapter implements Queue {
   ackErrors: string[];
   private clientAdminBackend: ClientProxy;
