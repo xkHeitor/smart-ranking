@@ -1,9 +1,17 @@
+import { Configs } from '@configs';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { QueueModule } from '@queue';
 import CategoryController from './category.controller';
 
 @Module({
-  providers: [],
   controllers: [CategoryController],
-  // exports: [CategoryService],
+  imports: [
+    ConfigModule.forRoot({
+      load: Configs,
+      envFilePath: ['.env'],
+    }),
+    QueueModule,
+  ],
 })
 export class CategoryModule {}
