@@ -1,5 +1,4 @@
 import { Controller, Logger } from '@nestjs/common';
-import { MicroAdminBackendService } from './micro-admin-backend.service';
 import {
   Ctx,
   EventPattern,
@@ -7,8 +6,9 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
+import { Queue } from '@queue';
 import Category from './domain/interfaces/category.interface';
-import Queue from '../../common/src/queue/queue.interface';
+import { MicroAdminBackendService } from './micro-admin-backend.service';
 
 @Controller()
 export class MicroAdminBackendController {
