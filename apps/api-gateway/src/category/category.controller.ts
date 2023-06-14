@@ -37,9 +37,7 @@ export default class CategoryController {
   }
 
   @Get('categories')
-  async getCategories(
-    @Query('categoryId') _id: string,
-  ): Promise<Observable<void>> {
+  async getCategories(@Query('id') _id: string): Promise<Observable<void>> {
     return this.queue.sender('get-categories', _id || '');
   }
 
