@@ -1,7 +1,7 @@
-import CreatePlayerDto from '@micro-admin-backend/domain/dtos/create-player.dto';
-import UpdatePlayerDto from '@micro-admin-backend/domain/dtos/update-player.dto';
-import Player from '@micro-admin-backend/domain/interfaces/player.interface';
-import PlayerRepository from '@micro-admin-backend/domain/repositories/player.repository';
+import CreatePlayerDto from '@micro-admin-backend/player/dtos/create-player.dto';
+import UpdatePlayerDto from '@micro-admin-backend/player/dtos/update-player.dto';
+import Player from '@micro-admin-backend/player/interfaces/player.interface';
+import PlayerRepository from '@micro-admin-backend/player/repositories/player.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 

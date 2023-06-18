@@ -1,7 +1,7 @@
-import CreateCategoryDto from '@micro-admin-backend/domain/dtos/create-category.dto';
-import UpdateCategoryDto from '@micro-admin-backend/domain/dtos/update-category.dto';
-import Category from '@micro-admin-backend/domain/interfaces/category.interface';
-import CategoryRepository from '@micro-admin-backend/domain/repositories/category.repository';
+import CreateCategoryDto from '@micro-admin-backend/category/domain/dtos/create-category.dto';
+import UpdateCategoryDto from '@micro-admin-backend/category/domain/dtos/update-category.dto';
+import Category from '@micro-admin-backend/category/domain/interfaces/category.interface';
+import CategoryRepository from '@micro-admin-backend/category/domain/repositories/category.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
