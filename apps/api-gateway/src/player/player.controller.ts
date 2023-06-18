@@ -40,7 +40,7 @@ export class PlayerController {
 
   @Get()
   async getPlayers(@Query('id') id: string): Promise<Observable<any>> {
-    return this.queue.sender('get-players', id || null);
+    return this.queue.sender('get-players', id || '');
   }
 
   @Delete()
@@ -49,14 +49,15 @@ export class PlayerController {
     return this.queue.emitter('delete-player', id);
   }
 
-  @Put(':/id')
+  @Put('/:id')
   @UsePipes(ValidationPipe)
   async updatePlayer(
     @Body() updatePlayerDto: UpdatePlayerDto,
     @Param('id') id: string,
   ): Promise<void> {
-    await this.queue.emitter('create-player', {
-      player: { ...updatePlayerDto, id },
+    await this.queue.emitter('update-player', {
+      id,
+      player: { ...updatePlayerDto },
     });
   }
 }

@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import CreateCategoryDto from './domain/dtos/create-category.dto';
 import UpdateCategoryDto from './domain/dtos/update-category.dto';
 
-@Controller('api/v1')
+@Controller('api/v1/categories')
 export default class CategoryController {
   private logger = new Logger(CategoryController.name);
 
@@ -28,7 +28,7 @@ export default class CategoryController {
     this.queue.connect(this.configService);
   }
 
-  @Post('categories')
+  @Post()
   @UsePipes(ValidationPipe)
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
@@ -36,12 +36,12 @@ export default class CategoryController {
     await this.queue.emitter('create-category', createCategoryDto);
   }
 
-  @Get('categories')
+  @Get()
   async getCategories(@Query('id') _id: string): Promise<Observable<void>> {
     return this.queue.sender('get-categories', _id || '');
   }
 
-  @Put('categories/:id')
+  @Put('/:id')
   @UsePipes(ValidationPipe)
   async updateCategory(
     @Body() updateCategoryDto: UpdateCategoryDto,
