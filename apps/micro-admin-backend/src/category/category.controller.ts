@@ -11,8 +11,8 @@ import { CategoryService } from './category.service';
 import Category from './domain/interfaces/category.interface';
 
 @Controller()
-export class MicroAdminBackendController {
-  private readonly logger = new Logger(MicroAdminBackendController.name);
+export class CategoryController {
+  private readonly logger = new Logger(CategoryController.name);
 
   constructor(
     private readonly categoryService: CategoryService,
