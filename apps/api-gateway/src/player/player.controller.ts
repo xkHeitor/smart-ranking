@@ -32,6 +32,7 @@ export class PlayerController {
     const category = await this.queue.sender(
       'get-categories',
       createPlayerDto.categoryId,
+      true,
     );
 
     if (!category) throw new BadRequestException('Category not exist');
