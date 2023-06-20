@@ -35,8 +35,9 @@ export default class RabbitMQAdapter implements Queue {
     return this.clientAdminBackend.emit(pattern, data);
   }
 
-  async sender(pattern: string, data: any): Promise<any> {
+  async sender(pattern: string, data: any, isPromise = false): Promise<any> {
     this.logger.log(`RabbitMQ - Send for pattern: ${pattern}`);
-    return this.clientAdminBackend.send(pattern, data);
+    if (!isPromise) return this.clientAdminBackend.send(pattern, data);
+    return await this.clientAdminBackend.send(pattern, data).toPromise();
   }
 }
