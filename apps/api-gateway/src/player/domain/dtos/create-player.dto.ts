@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export default class CreatePlayerDto {
   @IsNotEmpty()
-  readonly categoryId: string;
+  readonly category: string;
 
   @IsNotEmpty()
   readonly phoneNumber: string;

@@ -31,7 +31,7 @@ export class PlayerController {
   async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<void> {
     const category = await this.queue.sender(
       'get-categories',
-      createPlayerDto.categoryId,
+      createPlayerDto.category,
       true,
     );
 
