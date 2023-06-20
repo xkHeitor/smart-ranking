@@ -11,11 +11,11 @@ export default class PlayerMongooseRepository implements PlayerRepository {
   ) {}
 
   async getAll(): Promise<Player[]> {
-    return this.playerModel.find().exec();
+    return this.playerModel.find().populate('category').exec();
   }
 
   async getFindById(id: string): Promise<Player> {
-    return this.playerModel.findOne({ _id: id });
+    return this.playerModel.findOne({ _id: id }).populate('category').exec();
   }
 
   async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
