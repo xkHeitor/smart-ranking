@@ -1,14 +1,36 @@
 version: '3'
 
 services:
-  rabbit:
+  rabbitmq:
     image: rabbitmq:3-management
-    container_name: rmq
     environment:
       VIRTUAL_HOST: rabbit.local.management
-      DB_USERNAME: guest
-      DB_PASSWORD: guest
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: smart-ranking
     ports:
       - "5672:5672"
       - "15672:15672"
-    # command: rabbitmqctl add_vhost smart-ranking 
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - my-networks
+    command: ["rabbitmq-server"]
+    # command: ["bash", "-c", "rabbitmqctl add_vhost smart-ranking"]
+  smart-ranking:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      DB_CONNECT_RABBITMQ: amqp://guest:guest@rabbitmq
+      DB_CONNECT_RABBITMQ_VHOST: smart-ranking
+
+    networks:
+      - my-networks
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+networks:
+  my-networks:
+    driver: bridge
