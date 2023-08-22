@@ -8,12 +8,16 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from '@queue';
 import { Observable } from 'rxjs';
+
 import CreatePlayerDto from './domain/dtos/create-player.dto';
 import UpdatePlayerDto from './domain/dtos/update-player.dto';
 
@@ -60,5 +64,15 @@ export class PlayerController {
       id,
       player: { ...updatePlayerDto },
     });
+  }
+
+  @Post('/:id/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(
+    @UploadedFile() file,
+    @Param('id') id: string,
+  ): Promise<void> {
+    console.log('🚀 ~ PlayerController ~ id:', id);
+    console.log('🚀 ~ PlayerController ~ file:', file);
   }
 }
