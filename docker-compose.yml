@@ -18,6 +18,24 @@ services:
     command: ["rabbitmq-server"]
     # command: ["bash", "-c", "rabbitmqctl add_vhost smart-ranking"]
 
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    environment:
+      - SERVICES=s3
+      - USE_SSL=false
+      - DEFAULT_REGION=us-east-1
+    ports:
+      - "4566:4566" # Porta para o serviço S3 do localstack
+    volumes:
+      - "/tmp/localstack:/tmp/localstack"
+    networks:
+      - my-networks
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+
   # smart-ranking:
   #   build: .
   #   ports:
@@ -31,24 +49,6 @@ services:
   #     - rabbitmq
   #   depends_on:
   #     - rabbitmq
-
-  localstack:
-    image: localstack/localstack
-    container_name: localstack
-    environment:
-      - SERVICES=s3
-      - DEFAULT_REGION=us-east-1
-      - DEBUG=1
-    ports:
-      - "4566:4566" # Porta para o serviço S3 do localstack
-    volumes:
-      - "/tmp/localstack:/tmp/localstack"
-    networks:
-      - my-networks
-    links:
-      - rabbitmq
-    depends_on:
-      - rabbitmq
       
 networks:
   my-networks:
