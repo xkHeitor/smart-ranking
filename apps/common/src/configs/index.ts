@@ -1,4 +1,5 @@
 import apiGatewayConfig from './api-gateway.config';
+import awsConfig from './aws.config';
 import mainConfig from './main.config';
 import microAdminBackendConfig from './micro-admin-backend.config';
 import rabbitmqConfig from './rabbitmq.config';
@@ -8,4 +9,5 @@ export const Configs = [
   mainConfig,
   rabbitmqConfig,
   microAdminBackendConfig,
+  awsConfig,
 ];

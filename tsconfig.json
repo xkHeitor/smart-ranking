@@ -20,6 +20,9 @@
       "@queue": [
         "apps/common/src/queue"
       ],
+      "@aws": [
+        "apps/common/src/aws"
+      ],
       "@initial/*": [
         "apps/initial/src/*"
       ],
