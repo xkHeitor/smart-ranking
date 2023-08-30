@@ -2,6 +2,7 @@ import { Configs } from '@configs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { QueueModule } from '@queue';
+import { AwsModule } from 'apps/common/src';
 import CategoryController from './category/category.controller';
 import { PlayerController } from './player/player.controller';
 
@@ -13,6 +14,7 @@ import { PlayerController } from './player/player.controller';
       envFilePath: ['.env'],
     }),
     QueueModule,
+    AwsModule,
   ],
 })
 export class AppModule {}

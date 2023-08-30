@@ -1,3 +1,4 @@
+import { AwsService } from '@aws';
 import {
   BadRequestException,
   Body,
@@ -25,6 +26,7 @@ import UpdatePlayerDto from './domain/dtos/update-player.dto';
 export class PlayerController {
   constructor(
     private readonly queue: Queue,
+    private readonly aws: AwsService,
     private readonly configService: ConfigService,
   ) {
     this.queue.connect(this.configService);
@@ -71,8 +73,8 @@ export class PlayerController {
   async uploadFile(
     @UploadedFile() file,
     @Param('id') id: string,
-  ): Promise<void> {
-    console.log('🚀 ~ PlayerController ~ id:', id);
-    console.log('🚀 ~ PlayerController ~ file:', file);
+  ): Promise<any> {
+    const data = await this.aws.uploadFile(file, id);
+    return data;
   }
 }
