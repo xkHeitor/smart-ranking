@@ -5,20 +5,28 @@ import * as AWS from 'aws-sdk';
 @Injectable()
 export class AwsService {
   private logger = new Logger('AWS');
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   public async uploadFile(file: any, id: string): Promise<any> {
     const s3 = new AWS.S3({
-      region: this.configService.get('aws.region'),
-      accessKeyId: this.configService.get('aws.accessKeyId'),
+      endpoint: this.configService.get('aws.endpoint_s3'),
+      s3ForcePathStyle: true,
+      // region: this.configService.get('aws.region'),
+      // accessKeyId: this.configService.get('aws.access_key'),
+      // secretAccessKey: this.configService.get('aws.secret_key'),
     });
+
+    // Example: buckets list
+    // s3.listBuckets((err, data) =>
+    //   console.log(err ? err : `'Buckets:', ${data.Buckets}`),
+    // );
 
     if (!file && !file.originalname) throw new Error('error in file');
     const fileExt = file.originalname.split('.')[1];
     const urlKey = `${id}.${fileExt}`;
     const params = {
       Body: file.buffer,
-      Bucket: 'smartRanking',
+      Bucket: this.configService.get('aws.bucket'),
       Key: urlKey,
     };
 
