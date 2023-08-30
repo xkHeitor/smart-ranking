@@ -12,44 +12,60 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - ./rabbitmq-data:/var/lib/rabbitmq
+      # - ./rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq-data:/temp/rabbitmq/data
     networks:
-      - my-networks
+      - privateNetwork
     command: ["rabbitmq-server"]
-    # command: ["bash", "-c", "rabbitmqctl add_vhost smart-ranking"]
 
   localstack:
     image: localstack/localstack
-    container_name: localstack
     environment:
       - SERVICES=s3
-      - USE_SSL=false
       - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/tmp/localstack/data
+      - DEBUG=1
+      # Config bucket
+      - S3_BUCKET_NAME=my-local-bucket
+      - S3_ENDPOINT=http://localhost:4566
+      - S3_PORT=4566
+      # Config access
+      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKE
     ports:
-      - "4566:4566" # Porta para o serviço S3 do localstack
+      - "4566:4566"
     volumes:
-      - "/tmp/localstack:/tmp/localstack"
+      - ./localstack/data:/tmp/localstack/data
     networks:
-      - my-networks
+      - privateNetwork 
+  
+  init-services:
+    build:
+      context: ./scripts/
+      dockerfile: Dockerfile
+    depends_on:
+      - localstack
+      - rabbitmq
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: /scripts/init-services.sh
+
+  smart-ranking:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_CONNECT_RABBITMQ=amqp://guest:guest@rabbitmq
+      - DB_CONNECT_RABBITMQ_VHOST=smart-ranking
+      - AWS_S3_ENDPOINT=http://localstack:4566
+    networks:
+      - privateNetwork
     links:
       - rabbitmq
+      - localstack
     depends_on:
-      - rabbitmq
-
-  # smart-ranking:
-  #   build: .
-  #   ports:
-  #     - "8081:8081"
-  #   environment:
-  #     DB_CONNECT_RABBITMQ: amqp://guest:guest@rabbitmq
-  #     DB_CONNECT_RABBITMQ_VHOST: smart-ranking
-  #   networks:
-  #     - my-networks
-  #   links:
-  #     - rabbitmq
-  #   depends_on:
-  #     - rabbitmq
+      - init-services
       
 networks:
-  my-networks:
+  privateNetwork:
     driver: bridge
