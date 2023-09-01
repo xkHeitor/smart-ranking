@@ -46,25 +46,22 @@ services:
     depends_on:
       - localstack
       - rabbitmq
-    volumes:
-      - ./scripts:/scripts
-    entrypoint: /scripts/init-services.sh
 
-  smart-ranking:
-    build: .
-    ports:
-      - "8081:8081"
-    environment:
-      - DB_CONNECT_RABBITMQ=amqp://guest:guest@rabbitmq
-      - DB_CONNECT_RABBITMQ_VHOST=smart-ranking
-      - AWS_S3_ENDPOINT=http://localstack:4566
-    networks:
-      - privateNetwork
-    links:
-      - rabbitmq
-      - localstack
-    depends_on:
-      - init-services
+  # smart-ranking:
+  #   build: .
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - DB_CONNECT_RABBITMQ=amqp://guest:guest@rabbitmq
+  #     - DB_CONNECT_RABBITMQ_VHOST=smart-ranking
+  #     - AWS_S3_ENDPOINT=http://localstack:4566
+  #   networks:
+  #     - privateNetwork
+  #   links:
+  #     - rabbitmq
+  #     - localstack
+  #   depends_on:
+  #     - init-services
       
 networks:
   privateNetwork:
