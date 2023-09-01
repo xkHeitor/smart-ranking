@@ -1,4 +1,4 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Logger, NotFoundException } from '@nestjs/common';
 import {
   Ctx,
   EventPattern,
@@ -19,28 +19,35 @@ export class CategoryController {
     private readonly queue: Queue,
   ) {}
 
+  private async execEvent(context, fn, params): Promise<any> {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+
+    try {
+      await this.categoryService[fn](...params);
+      await channel.ack(originalMsg);
+    } catch (error: any) {
+      this.logger.error(`error:  ${error.message}`);
+      for (const ackError of this.queue.ackErrors) {
+        if (
+          error?.message.includes(ackError) ||
+          error instanceof NotFoundException
+        ) {
+          await channel.ack(originalMsg);
+          break;
+        }
+      }
+    }
+  }
+
   @EventPattern('create-category') // Listener
   async createCategory(
     @Payload() category: Category,
     @Ctx() context: RmqContext,
   ): Promise<void> {
     this.logger.log(`category: ${JSON.stringify(category)}`);
-
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-
-    try {
-      await this.categoryService.createCategory(category);
-      await channel.ack(originalMsg);
-    } catch (error: any) {
-      this.logger.error(`error:  ${error.message}`);
-      for (const ackError of this.queue.ackErrors) {
-        if (error?.message.includes(ackError)) {
-          await channel.ack(originalMsg);
-          break;
-        }
-      }
-    }
+    const functionName = this.categoryService.createCategory.name;
+    await this.execEvent(context, functionName, category);
   }
 
   @EventPattern('update-category') // Listener
@@ -49,23 +56,9 @@ export class CategoryController {
     @Ctx() context: RmqContext,
   ): Promise<void> {
     this.logger.log(`data: ${JSON.stringify(data)}`);
-
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-
-    try {
-      const [id, category] = [data.id, data.category];
-      await this.categoryService.updateCategory(id, category);
-      await channel.ack(originalMsg);
-    } catch (error: any) {
-      this.logger.error(`error:  ${error.message}`);
-      for (const ackError of this.queue.ackErrors) {
-        if (error?.message.includes(ackError)) {
-          await channel.ack(originalMsg);
-          break;
-        }
-      }
-    }
+    const functionName = this.categoryService.updateCategory.name;
+    const [id, category] = [data.id, data.category];
+    await this.execEvent(context, functionName, { id, category });
   }
 
   @MessagePattern('get-categories')
@@ -80,6 +73,17 @@ export class CategoryController {
       return await (id
         ? this.categoryService.getCategoryById(id)
         : this.categoryService.getCategories());
+    } catch (error: any) {
+      this.logger.error(`error:  ${error.message}`);
+      for (const ackError of this.queue.ackErrors) {
+        if (
+          error?.message.includes(ackError) ||
+          error instanceof NotFoundException
+        ) {
+          await channel.ack(originalMsg);
+          break;
+        }
+      }
     } finally {
       await channel.ack(originalMsg);
     }
