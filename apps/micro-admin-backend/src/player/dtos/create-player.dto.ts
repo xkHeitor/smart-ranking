@@ -1,5 +1,5 @@
 import {} from 'class-transformer';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
 export default class CreatePlayerDto {
   @IsNotEmpty()
@@ -13,4 +13,7 @@ export default class CreatePlayerDto {
 
   @IsNotEmpty()
   readonly category: string;
+
+  @IsOptional()
+  photoUrl?: string;
 }

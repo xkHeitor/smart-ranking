@@ -1,5 +1,5 @@
 import {} from 'class-transformer';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export default class UpdatePlayerDto {
   @IsNotEmpty()
@@ -7,4 +7,10 @@ export default class UpdatePlayerDto {
 
   @IsNotEmpty()
   name: string;
+
+  @IsOptional()
+  category?: string;
+
+  @IsOptional()
+  photoUrl?: string;
 }
