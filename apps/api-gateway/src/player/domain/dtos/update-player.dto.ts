@@ -1,10 +1,16 @@
 import {} from 'class-transformer';
-import { IsNotEmpty } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export default class UpdatePlayerDto {
-  @IsNotEmpty()
-  readonly phoneNumber: string;
+  @IsOptional()
+  phoneNumber?: string;
 
-  @IsNotEmpty()
-  name: string;
+  @IsOptional()
+  name?: string;
+
+  @IsOptional()
+  category?: string;
+
+  @IsOptional()
+  photoUrl?: string;
 }

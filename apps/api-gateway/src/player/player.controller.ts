@@ -74,7 +74,15 @@ export class PlayerController {
     @UploadedFile() file,
     @Param('id') id: string,
   ): Promise<any> {
-    const data = await this.aws.uploadFile(file, id);
-    return data;
+    const player = await this.queue.sender('get-players', id);
+    if (!player) throw new BadRequestException('Player not found');
+
+    const photoUrl = (await this.aws.uploadFile(file, id)).url;
+    await this.queue.emitter('update-player', {
+      id,
+      player: { photoUrl },
+    });
+
+    return this.queue.sender('get-players', id);
   }
 }
