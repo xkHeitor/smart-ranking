@@ -32,11 +32,9 @@ export class CategoryController {
       await channel.ack(originalMsg);
     } catch (error: any) {
       this.logger.error(`error:  ${error.message}`);
+      if (error instanceof NotFoundException) await channel.ack(originalMsg);
       for (const ackError of this.queue.ackErrors) {
-        if (
-          error?.message.includes(ackError) ||
-          error instanceof NotFoundException
-        ) {
+        if (error?.message.includes(ackError)) {
           await channel.ack(originalMsg);
           break;
         }
