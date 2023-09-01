@@ -7,7 +7,7 @@ export const PlayerSchema = generateSchema(
     name: String,
     ranking: String,
     rankingPosition: Number,
-    photoUR: String,
+    photoUrl: String,
   },
   'players',
 );
