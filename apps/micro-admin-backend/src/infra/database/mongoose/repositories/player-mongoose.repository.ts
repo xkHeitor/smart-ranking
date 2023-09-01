@@ -23,9 +23,10 @@ export default class PlayerMongooseRepository implements PlayerRepository {
     return playerCreated.save();
   }
 
-  async update(id: string, createPlayerDto: UpdatePlayerDto): Promise<void> {
+  async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<void> {
+    console.log(updatePlayerDto);
     await this.playerModel
-      .findOneAndUpdate({ _id: id }, { $set: createPlayerDto })
+      .findOneAndUpdate({ _id: id }, { $set: updatePlayerDto })
       .exec();
   }
 
