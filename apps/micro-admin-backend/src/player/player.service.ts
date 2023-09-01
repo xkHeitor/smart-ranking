@@ -25,14 +25,12 @@ export class PlayerService {
   }
 
   async updatePlayer(id: string, playerDto: UpdatePlayerDto): Promise<any> {
-    const foundPlayer: Player = await this.playerRepository.getFindById(id);
-    if (!foundPlayer) throw new NotFoundException('Player not found');
+    await this.getPlayerById(id);
     return this.playerRepository.update(id, playerDto);
   }
 
   async deletePlayer(id: string): Promise<void> {
-    const foundPlayer: Player = await this.playerRepository.getFindById(id);
-    if (!foundPlayer) throw new NotFoundException(`Player not found`);
+    await this.getPlayerById(id);
     return this.playerRepository.delete(id);
   }
 }

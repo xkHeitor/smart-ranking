@@ -24,7 +24,6 @@ export default class PlayerMongooseRepository implements PlayerRepository {
   }
 
   async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<void> {
-    console.log(updatePlayerDto);
     await this.playerModel
       .findOneAndUpdate({ _id: id }, { $set: updatePlayerDto })
       .exec();

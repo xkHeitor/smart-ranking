@@ -19,7 +19,11 @@ export class PlayerController {
     private readonly queue: Queue,
   ) {}
 
-  private async execEvent(context, fn, params): Promise<any> {
+  private async execEvent(
+    context: RmqContext,
+    fn: string,
+    params: any[],
+  ): Promise<any> {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
 
@@ -28,11 +32,9 @@ export class PlayerController {
       await channel.ack(originalMsg);
     } catch (error: any) {
       this.logger.error(`error:  ${error.message}`);
+      if (error instanceof NotFoundException) await channel.ack(originalMsg);
       for (const ackError of this.queue.ackErrors) {
-        if (
-          error?.message.includes(ackError) ||
-          error instanceof NotFoundException
-        ) {
+        if (error?.message.includes(ackError)) {
           await channel.ack(originalMsg);
           break;
         }
@@ -64,7 +66,7 @@ export class PlayerController {
   ): Promise<void> {
     this.logger.log(`player: ${JSON.stringify(player)}`);
     const functionName = this.playerService.createPlayer.name;
-    await this.execEvent(context, functionName, player);
+    await this.execEvent(context, functionName, [player]);
   }
 
   @EventPattern('update-player')
@@ -75,7 +77,7 @@ export class PlayerController {
     this.logger.log(`player data: ${JSON.stringify(data)}`);
     const functionName = this.playerService.updatePlayer.name;
     const [id, player] = [data.id, data.player];
-    await this.execEvent(context, functionName, { id, player });
+    await this.execEvent(context, functionName, [id, player]);
   }
 
   @EventPattern('delete-player')
@@ -84,6 +86,6 @@ export class PlayerController {
     @Ctx() context: RmqContext,
   ): Promise<void> {
     const functionName = this.playerService.deletePlayer.name;
-    await this.execEvent(context, functionName, id);
+    await this.execEvent(context, functionName, [id]);
   }
 }
