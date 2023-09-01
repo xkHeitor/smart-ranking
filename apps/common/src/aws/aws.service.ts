@@ -8,8 +8,10 @@ export class AwsService {
   constructor(private readonly configService: ConfigService) {}
 
   public async uploadFile(file: any, id: string): Promise<any> {
+    const endpoint = this.configService.get('aws.endpoint_s3');
+    const bucket = this.configService.get('aws.bucket');
     const s3 = new AWS.S3({
-      endpoint: this.configService.get('aws.endpoint_s3'),
+      endpoint: endpoint,
       s3ForcePathStyle: true,
       // region: this.configService.get('aws.region'),
       // accessKeyId: this.configService.get('aws.access_key'),
@@ -26,7 +28,7 @@ export class AwsService {
     const urlKey = `${id}.${fileExt}`;
     const params = {
       Body: file.buffer,
-      Bucket: this.configService.get('aws.bucket'),
+      Bucket: bucket,
       Key: urlKey,
     };
 
@@ -34,8 +36,10 @@ export class AwsService {
       .putObject(params)
       .promise()
       .then(
-        (data) => {
-          return data;
+        (_) => {
+          return {
+            url: `${endpoint}/${bucket}/${urlKey}`,
+          };
         },
         (error) => {
           this.logger.error(error);
