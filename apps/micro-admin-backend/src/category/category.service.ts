@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import UpdateCategoryDto from './domain/dtos/update-category.dto';
 import Category from './domain/interfaces/category.interface';
@@ -41,9 +41,7 @@ export class CategoryService {
     id: string,
     createCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
-    const foundCategory: Category = await this.categoryRepository.findById(id);
-    if (!foundCategory)
-      throw new BadRequestException(`Category ${id} not exists`);
+    await this.getCategoryById(id);
     return this.categoryRepository.update(id, createCategoryDto);
   }
 }

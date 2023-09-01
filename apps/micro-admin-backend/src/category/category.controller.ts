@@ -19,7 +19,11 @@ export class CategoryController {
     private readonly queue: Queue,
   ) {}
 
-  private async execEvent(context, fn, params): Promise<any> {
+  private async execEvent(
+    context: RmqContext,
+    fn: string,
+    params: any[],
+  ): Promise<any> {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
 
@@ -47,7 +51,7 @@ export class CategoryController {
   ): Promise<void> {
     this.logger.log(`category: ${JSON.stringify(category)}`);
     const functionName = this.categoryService.createCategory.name;
-    await this.execEvent(context, functionName, category);
+    await this.execEvent(context, functionName, [category]);
   }
 
   @EventPattern('update-category') // Listener
@@ -58,7 +62,7 @@ export class CategoryController {
     this.logger.log(`data: ${JSON.stringify(data)}`);
     const functionName = this.categoryService.updateCategory.name;
     const [id, category] = [data.id, data.category];
-    await this.execEvent(context, functionName, { id, category });
+    await this.execEvent(context, functionName, [id, category]);
   }
 
   @MessagePattern('get-categories')
