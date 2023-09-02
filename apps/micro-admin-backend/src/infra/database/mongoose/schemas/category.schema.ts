@@ -11,12 +11,6 @@ export const CategorySchema = new mongoose.Schema(
         value: Number,
       },
     ],
-    players: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player', // Document Name
-      },
-    ],
   },
   { timestamps: true, collection: 'categories' },
 );
