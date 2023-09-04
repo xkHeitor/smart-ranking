@@ -18,7 +18,7 @@ import CreateCategoryDto from './domain/dtos/create-category.dto';
 import UpdateCategoryDto from './domain/dtos/update-category.dto';
 
 @Controller('api/v1/categories')
-export default class CategoryController {
+export class CategoryController {
   private logger = new Logger(CategoryController.name);
 
   constructor(private readonly queue: Queue) {}
