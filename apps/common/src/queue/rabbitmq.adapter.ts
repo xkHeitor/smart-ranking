@@ -13,14 +13,15 @@ export default class RabbitMQAdapter implements Queue {
   private clientAdminBackend: ClientProxy;
   private logger = new Logger('RabbitMQ');
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.ackErrors = ['E11000'];
+    this.connect();
   }
 
-  connect(configService: ConfigService): void {
-    const rabbitmqUrl = configService.get<string>('rabbitmq.urlConnect');
-    const rabbitmqVhost = configService.get<string>('rabbitmq.vhost');
-    const queueName = configService.get<string>('api-gateway.queueName');
+  connect(): void {
+    const rabbitmqUrl = this.configService.get<string>('rabbitmq.urlConnect');
+    const rabbitmqVhost = this.configService.get<string>('rabbitmq.vhost');
+    const queueName = this.configService.get<string>('api-gateway.queueName');
     this.clientAdminBackend = ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {

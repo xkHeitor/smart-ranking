@@ -21,12 +21,7 @@ import UpdateCategoryDto from './domain/dtos/update-category.dto';
 export default class CategoryController {
   private logger = new Logger(CategoryController.name);
 
-  constructor(
-    private readonly queue: Queue,
-    private readonly configService: ConfigService,
-  ) {
-    this.queue.connect(this.configService);
-  }
+  constructor(private readonly queue: Queue) {}
 
   @Post()
   @UsePipes(ValidationPipe)

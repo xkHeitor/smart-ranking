@@ -14,7 +14,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from '@queue';
 import { Observable } from 'rxjs';
@@ -27,10 +26,7 @@ export class PlayerController {
   constructor(
     private readonly queue: Queue,
     private readonly aws: AwsService,
-    private readonly configService: ConfigService,
-  ) {
-    this.queue.connect(this.configService);
-  }
+  ) {}
 
   @Post()
   @UsePipes(ValidationPipe)
