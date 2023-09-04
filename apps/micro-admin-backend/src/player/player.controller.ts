@@ -9,6 +9,7 @@ import {
 import { Queue } from '@queue';
 import Player from './interfaces/player.interface';
 import { PlayerService } from './player.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class PlayerController {
@@ -17,7 +18,11 @@ export class PlayerController {
   constructor(
     private readonly playerService: PlayerService,
     private readonly queue: Queue,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const queueName = this.configService.get<string>('api-gateway.queueName');
+    this.queue.connect(queueName);
+  }
 
   private async execEvent(
     context: RmqContext,

@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from '@queue';
 import { Observable } from 'rxjs';
 
+import { ConfigService } from '@nestjs/config';
 import CreatePlayerDto from './domain/dtos/create-player.dto';
 import UpdatePlayerDto from './domain/dtos/update-player.dto';
 
@@ -26,7 +27,11 @@ export class PlayerController {
   constructor(
     private readonly queue: Queue,
     private readonly aws: AwsService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const queueName = this.configService.get<string>('api-gateway.queueName');
+    this.queue.connect(queueName);
+  }
 
   @Post()
   @UsePipes(ValidationPipe)

@@ -9,6 +9,7 @@ import {
 import { Queue } from '@queue';
 import { CategoryService } from './category.service';
 import Category from './domain/interfaces/category.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class CategoryController {
@@ -17,7 +18,11 @@ export class CategoryController {
   constructor(
     private readonly categoryService: CategoryService,
     private readonly queue: Queue,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const queueName = this.configService.get<string>('api-gateway.queueName');
+    this.queue.connect(queueName);
+  }
 
   private async execEvent(
     context: RmqContext,

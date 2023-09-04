@@ -21,7 +21,13 @@ import UpdateCategoryDto from './domain/dtos/update-category.dto';
 export class CategoryController {
   private logger = new Logger(CategoryController.name);
 
-  constructor(private readonly queue: Queue) {}
+  constructor(
+    private readonly queue: Queue,
+    private readonly configService: ConfigService,
+  ) {
+    const queueName = this.configService.get<string>('api-gateway.queueName');
+    this.queue.connect(queueName);
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
