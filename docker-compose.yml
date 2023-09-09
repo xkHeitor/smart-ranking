@@ -5,9 +5,9 @@ services:
     image: rabbitmq:3-management
     environment:
       VIRTUAL_HOST: rabbit.local.management
+      RABBITMQ_DEFAULT_VHOST: smart-ranking
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
-      RABBITMQ_DEFAULT_VHOST: smart-ranking
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -22,16 +22,9 @@ services:
     image: localstack/localstack
     environment:
       - SERVICES=s3
-      - DEFAULT_REGION=us-east-1
-      - DATA_DIR=/tmp/localstack/data
       - DEBUG=1
-      # Config bucket
-      - S3_BUCKET_NAME=my-local-bucket
-      - S3_ENDPOINT=http://localhost:4566
+      - DATA_DIR=/tmp/localstack/data
       - S3_PORT=4566
-      # Config access
-      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKE
     ports:
       - "4566:4566"
     volumes:
@@ -39,13 +32,18 @@ services:
     networks:
       - privateNetwork 
   
-  init-services:
-    build:
-      context: ./scripts/
-      dockerfile: Dockerfile
+  aws-cli:
+    image: amazon/aws-cli
     depends_on:
       - localstack
-      - rabbitmq
+    networks:
+      - privateNetwork
+    entrypoint: sh
+    command: >
+      -c "sleep 5 && \ 
+      aws configure set aws_access_key_id access_key_id_default && \ 
+      aws configure set aws_secret_access_key secret_access_key_default && \ 
+      aws --endpoint-url=http://localstack:4566 s3api create-bucket --bucket smart-ranking-bucket"
 
   # smart-ranking:
   #   build: .
